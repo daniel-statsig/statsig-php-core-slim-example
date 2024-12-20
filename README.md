@@ -1,3 +1,16 @@
+# Recreation Steps
+
+1. Create a new project with `composer create-project slim/slim-skeleton [my-app-name]`
+2. `cd [my-app-name]`
+3. Add statsig-core-php to the project
+   - Run `composer require statsig/statsig-core-php`
+   - Add Post Install script to `composer.json`. eg `"post-install-cmd": [ "cd vendor/statsig/statsig-core-php && php post-install.php" ]`
+   - Add Post Update script to `composer.json`. eg `"post-update-cmd": [ "cd vendor/statsig/statsig-core-php && php post-install.php" ]`
+4. Add `Statsig` as a dependency in `app/dependencies.php`
+5. Get an Experiment value in `app/routes.php`
+
+---
+
 # Slim Framework 4 Skeleton Application
 
 [![Coverage Status](https://coveralls.io/repos/github/slimphp/Slim-Skeleton/badge.svg?branch=master)](https://coveralls.io/github/slimphp/Slim-Skeleton?branch=master)
