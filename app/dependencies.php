@@ -9,6 +9,10 @@ use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Statsig\Statsig;
+use Statsig\StatsigOptions;
+use Statsig\StatsigLocalFileEventLoggingAdapter;
+use Statsig\StatsigLocalFileSpecsAdapter;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -25,6 +29,20 @@ return function (ContainerBuilder $containerBuilder) {
             $logger->pushHandler($handler);
 
             return $logger;
+        },
+        Statsig::class => function (ContainerInterface $c) {
+            $sdk_key = "secret-IiDuNzovZ5z9x75BEjyZ4Y2evYa94CJ9zNtDViKBVdv";
+
+            $options = new StatsigOptions(
+                null,
+                null,
+                new StatsigLocalFileSpecsAdapter($sdk_key, "/tmp"),
+                new StatsigLocalFileEventLoggingAdapter($sdk_key, "/tmp")
+            );
+
+            $statsig = new Statsig($sdk_key, $options);
+            $statsig->initialize();
+            return $statsig;
         },
     ]);
 };

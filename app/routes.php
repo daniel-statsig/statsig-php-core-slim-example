@@ -8,6 +8,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
+use Statsig\Statsig;
+use Statsig\StatsigUserBuilder;
 
 return function (App $app) {
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
@@ -16,7 +18,20 @@ return function (App $app) {
     });
 
     $app->get('/', function (Request $request, Response $response) {
-        $response->getBody()->write('Hello world!');
+        $statsig = $this->get(Statsig::class);
+
+        $user = StatsigUserBuilder::withUserID('my_user')->build();
+        $experiment = $statsig->getExperiment($user, 'an_experiment');
+
+        $value = $experiment->get("a_string", "My Fallback Value");
+        $reason = $experiment->details['reason'];
+
+        $formatted_value = sprintf(
+            "an_experiment.a_string: %s (%s)",
+            $value,
+            $reason
+        );
+        $response->getBody()->write($formatted_value);
         return $response;
     });
 
