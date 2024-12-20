@@ -27,7 +27,8 @@
     "monolog/monolog": "^2.8",
     "php-di/php-di": "^6.4",
     "slim/psr7": "^1.5",
-    "slim/slim": "^4.10"
+    "slim/slim": "^4.10",
+    "statsig/statsig-core-php": "dev-beta/0.0.1-beta.140"
   },
   "require-dev": {
     "jangregor/phpstan-prophecy": "^1.0.0",
@@ -56,7 +57,13 @@
   },
   "scripts": {
     "start": "php -S localhost:8080 -t public",
-    "test": "phpunit"
+    "test": "phpunit",
+    "post-install-cmd": [
+      "cd vendor/statsig/statsig-core-php && php post-install.php"
+    ],
+    "post-update-cmd": [
+      "cd vendor/statsig/statsig-core-php && php post-install.php"
+    ]
   },
   "minimum-stability": "dev"
 }
