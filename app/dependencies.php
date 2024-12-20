@@ -31,7 +31,7 @@ return function (ContainerBuilder $containerBuilder) {
             return $logger;
         },
         Statsig::class => function (ContainerInterface $c) {
-            $sdk_key = "secret-IiDuNzovZ5z9x75BEjyZ4Y2evYa94CJ9zNtDViKBVdv";
+            $sdk_key = getenv("STATSIG_SECRET_KEY");
 
             $options = new StatsigOptions(
                 null,
