@@ -7,7 +7,11 @@
    - Add Post Install script to `composer.json`. eg `"post-install-cmd": [ "cd vendor/statsig/statsig-core-php && php post-install.php" ]`
    - Add Post Update script to `composer.json`. eg `"post-update-cmd": [ "cd vendor/statsig/statsig-core-php && php post-install.php" ]`
 4. Add `Statsig` as a dependency in `app/dependencies.php`
-5. Get an Experiment value in `app/routes.php`
+5. Add `StatsigFlushEvents.php` and `StatsigSyncConfig.php` in `bin/`
+6. Schedule a cron job to run `StatsigSyncConfig.php` every 10 minutes. eg `*/10 * * * * /usr/bin/php /var/www/example.com/bin/StatsigSyncConfig.php 1>> /dev/null 2>&1`
+7. Schedule a cron job to run `StatsigFlushEvents.php` every 1 minute. eg `*/1 * * * * /usr/bin/php /var/www/example.com/bin/StatsigFlushEvents.php 1>> /dev/null 2>&1`
+8. Ensure the StatsigSyncConfig.php cron job runs at least once.
+9. Get an Experiment value in `app/routes.php`
 
 ---
 
